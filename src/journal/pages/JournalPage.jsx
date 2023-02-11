@@ -10,8 +10,8 @@ export const JournalPage = () => {
     //   Hola
     // </JournalLayout>
     <>
-      {/* <JournalLayout childen={<NothingSelectedView/>}/> */}
-      <JournalLayout childen={<NoteView/>}/>
+      <JournalLayout childen={<NothingSelectedView/>}/>
+      {/* <JournalLayout childen={<NoteView/>}/> */}
 
       <IconButton
        size="large"
