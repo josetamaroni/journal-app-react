@@ -8,15 +8,17 @@ import { startLoginWithEmailPassword, startGoogleSignIn } from '../../store/auth
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks';
 
+const formData = {
+  email: 'thebest919@gmail.com',
+  password: '123456'
+}
+
 export const LoginPage = () => {
 
   const { status, errorMessage } = useSelector( state => state.auth );
   const dispatch =  useDispatch();
 
-  const { email, password, onInputChange } = useForm({
-    email: 'thebest919@gmail.com',
-    password: '123456'
-  });
+  const { email, password, onInputChange } = useForm(formData);
 
   const isChekingAuthentication = useMemo( ()=> status === 'checking', [status] ); // Esto es para deshabilitar el botón
   const onSubmit = (event) => {

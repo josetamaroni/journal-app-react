@@ -14,13 +14,14 @@ const formValidations = {
   password: [ (value) => value.length >= 6 , 'El password debe tener más de 6 caracter' ],
   displayName: [ (value) => value.length >= 3, 'El nombre es obligatorio' ]
 }
+const formData = { email: '', password: '', displayName: '' };
 
 export const RegisterPage = () => {
   const dispatch =  useDispatch();
   const [formSubmitted, setFormSubmitted] = useState(false);
   const { status, errorMessage } = useSelector( state => state.auth );
   const isChekingAuthentication = useMemo( ()=> status === 'checking', [status] ); // Esto es para deshabilitar el botón
-  const { formState, onInputChange, isFormValid, displayNameValid, emailValid, passwordValid } = useForm({ email: '', password: '', displayName: '' }, formValidations );
+  const { formState, onInputChange, isFormValid, displayNameValid, emailValid, passwordValid } = useForm(formData, formValidations );
 
   const onSubmit = (event) => {
     event.preventDefault();
