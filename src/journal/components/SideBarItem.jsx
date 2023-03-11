@@ -5,7 +5,7 @@ import { TurnedInNot } from "@mui/icons-material"
 
 import { setActiveNote } from "../../store/journal";
 
-export const SideBarItem = ({title,body,id,date, imageUrls=[]}) => {
+export const SideBarItem = ({title,body,id,date, imageUrls=[],imageIds=[]}) => {
     const dispatch = useDispatch();
 
     const newTitle = useMemo(() => {
@@ -15,7 +15,7 @@ export const SideBarItem = ({title,body,id,date, imageUrls=[]}) => {
     }, [title])
 
     const activeNote = () =>{
-        dispatch( setActiveNote({title,body,id,date,imageUrls}) );
+        dispatch( setActiveNote({title,body,id,date,imageUrls,imageIds}) );
     }
 
     return (
@@ -32,5 +32,5 @@ export const SideBarItem = ({title,body,id,date, imageUrls=[]}) => {
                 </Grid>
             </ListItemButton>
         </ListItem>
-  )
+    )
 }

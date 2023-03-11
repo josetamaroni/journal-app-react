@@ -47,7 +47,9 @@ export const journalSlice = createSlice({
             // TODO: mostrar mensaje de actualizacion
         },
         setPhotosToActiveNote: (state, action) => {
-            state.active.imageUrls = [ ...state.active.imageUrls, ...action.payload ];
+            console.log(action.payload)
+            state.active.imageUrls = [ ...state.active.imageUrls, ...action.payload.imageUrls ];
+            state.active.imageIds = [ ...state.active.imageIds, ...action.payload.imageIds ];
             state.isSaving = false;
         },
         clearNotesLogout: (state) =>{

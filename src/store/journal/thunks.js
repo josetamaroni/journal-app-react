@@ -1,7 +1,7 @@
 import { FirebaseDB } from "../../firebase/config"
 import { collection, deleteDoc, doc, getDocs, setDoc } from "firebase/firestore/lite"
 import { addNewEmptyNote, setActiveNote, savingNewNote, setNotes, setSaving, updateNote, setPhotosToActiveNote, deleteNoteById } from "./"
-import { fileUpload } from "../../helpers";
+import { fileUpload, deleteImgs } from "../../helpers";
 
 export const startNewNote = () => {
     return async( dispatch, getState ) => {
@@ -12,7 +12,8 @@ export const startNewNote = () => {
             title: '',
             body: '',
             date: new Date().getTime(),
-            imageUrls: []
+            imageUrls: [],
+            imageIds: []
         }
 
         const newDoc = doc( collection( FirebaseDB, `${ uid }/journal/notes` ) );
@@ -67,13 +68,19 @@ export const startUploadingFiles = ( files = [] ) => {
         // Para subir todas las imagenes al mismo tiempo uso Promesas
         // En el array guardo todas las funciones y luego hago el disparo con Promise.all()
         // Hasta que no se resuelvan todas las promesas no retorna la respuesta
-        const fileUploadPromises = [];
+        // const fileUploadPromises = [];
+        const filesUrls = [];
+        const imagesIds = [];
         for (const file of files) {
-            fileUploadPromises.push( fileUpload( file ) );
+            const { secure_url, public_id } = await fileUpload(file);
+            filesUrls.push(secure_url);
+            imagesIds.push(public_id);
+            // fileUploadPromises.push( fileUpload( file ) );
         }
-        const photoUrls = await Promise.all(fileUploadPromises);
+        // const photoUrls = await Promise.all(fileUploadPromises);
 
-        dispatch( setPhotosToActiveNote( photoUrls ) ) 
+        // dispatch( setPhotosToActiveNote( photoUrls ) );
+        dispatch( setPhotosToActiveNote( {"imageUrls":filesUrls,"imageIds":imagesIds} ) );
     }
 }
 
@@ -88,5 +95,14 @@ export const startDeletingNote = () => {
         await deleteDoc(docRef);
 
         dispatch( deleteNoteById(note.id) );
+    }
+}
+
+export const startDeletingImages = () => {
+    return async ( dispatch, getState ) => {
+        const {  active: note } = getState().journal;
+        for ( const imgId of note.imageIds ) {
+            await deleteImgs( imgId )
+        }
     }
 }

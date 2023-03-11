@@ -9,7 +9,7 @@ import 'sweetalert2/dist/sweetalert2.css';
 
 import { useForm } from "../hooks/useForm";
 import { ImageGallery } from "../journal/components";
-import { setActiveNote, startDeletingNote, startSaveNote, startUploadingFiles } from "../store/journal";
+import { setActiveNote, startDeletingImages, startDeletingNote, startSaveNote, startUploadingFiles } from "../store/journal";
 
 export const NoteView = () => {
     const dispatch = useDispatch();
@@ -42,7 +42,8 @@ export const NoteView = () => {
     }
 
     const onDelete = () =>{
-        dispatch( startDeletingNote() )
+        dispatch( startDeletingNote() );
+        dispatch( startDeletingImages() );
     }
 
     return (
