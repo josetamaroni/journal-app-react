@@ -22,15 +22,11 @@ export const LoginPage = () => {
 
   const isChekingAuthentication = useMemo( ()=> status === 'checking', [status] ); // Esto es para deshabilitar el botón
   const onSubmit = (event) => {
-    event.preventDefault();
-    console.log({ email, password })
-    
+    event.preventDefault();    
     dispatch( startLoginWithEmailPassword(email, password) );
   }
 
   const onGoogleSignIn = () => {
-    console.log('onGoogleSignIn');
-
     dispatch( startGoogleSignIn() );
   }
 
